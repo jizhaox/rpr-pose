@@ -27,7 +27,7 @@ Note: We have tried 4 different rotation representations, and found that the Cay
 
 ## 2. Quick Start
 
-Run `compile.m` in subfolders of "`solvers_5pt_rpr`" to compile the mex files. Make sure to set the proper path of Eigen library in `compile.m`. This step can be skipped once the mex files have been compiled. Compiled files using Ubuntu 16.04 and Matlab R2019a are provided.
+Run `compile.m` in subfolders of "`solvers_5pt_rpr`" to compile the mex files. Make sure to set the proper path of Eigen library in `compile.m`. This step can be skipped once the mex files have been compiled. Compiled files using (Ubuntu 16.04 + Matlab R2019a) and (Windows 7 + Matlab 2016b + Visual Studio 2017) are provided.
 
 Run `test_solver*.m` in folder "`test`"
 
