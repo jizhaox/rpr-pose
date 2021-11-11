@@ -1,5 +1,5 @@
 #include <Eigen/Dense>
-#include "mex.h"
+//#include "mex.h"
 
 
 
@@ -204,7 +204,7 @@ MatrixXcd solver_1rpr90_3pt_cayley(const VectorXd& data)
 	for (int i = 0; i < 1773; i++) { C0(C0_ind[i]) = coeffs(coeffs0_ind[i]); }
 	for (int i = 0; i < 1027; i++) { C1(C1_ind[i]) = coeffs(coeffs1_ind[i]); } 
 
-	MatrixXd C12 = C0.partialPivLu().solve(C1);
+	MatrixXd C12 = C0.colPivHouseholderQr().solve(C1);
 
 
 

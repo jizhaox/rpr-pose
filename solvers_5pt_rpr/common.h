@@ -181,27 +181,6 @@ void calculate_cross_dot_matrix(Eigen::MatrixXd& M,
     return;
 }
 
-int find_smallest_ele_in_complex_vector(Eigen::VectorXcd v)
-{
-    int n = v.rows() * v.cols();
-    double re = v[0].real();
-    double im = v[0].imag();
-    double value_min = re*re + im*im;
-    int idx = 0;
-    for (int i = 1; i < n; i++)
-    {
-        re = v[i].real();
-        im = v[i].imag();
-        double tmp = re*re + im*im;
-        if (tmp < value_min)
-        {
-            value_min = tmp;
-            idx = i;
-        }
-    }
-    return idx;
-}
-
 void calculate_translation(
     Eigen::MatrixXcd sols, std::vector<Eigen::Vector3d>& P1, std::vector<Eigen::Vector3d>& P2, 
     std::vector<Eigen::Matrix<double,3,3>>& rotm_arr, 
@@ -241,13 +220,9 @@ void calculate_translation(
         Eigen::MatrixXd M(P1.size(), 3);
         calculate_cross_dot_matrix(M, P1, P2, rotm);
 
-        Eigen::Matrix<double, 3, 3> C;
-        C = M.transpose()*M;
-        EigenSolver<Eigen::Matrix<double,3,3>> es(C);
-        Eigen::VectorXcd ev = es.eigenvalues();
-        int idx_smallest = find_smallest_ele_in_complex_vector(ev);
-        Eigen::VectorXcd v = es.eigenvectors().col(idx_smallest);
-        Eigen::MatrixXd v_real = v.real();
+        Eigen::JacobiSVD<Eigen::MatrixXd> svd(M, Eigen::ComputeThinU | Eigen::ComputeThinV);
+        Eigen::MatrixXd V = svd.matrixV();
+        Eigen::MatrixXd v_real = V.rightCols(1);
 
         Eigen::Matrix<double, 3, 1> t_vec;
         t_vec << v_real(0), v_real(1), v_real(2);
